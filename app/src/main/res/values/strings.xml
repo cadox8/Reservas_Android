@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Reservas_Android</string>
+    <string name="username">Usuario</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Entrar</string>
+    <string name="register">Registrarse</string>
+</resources>
