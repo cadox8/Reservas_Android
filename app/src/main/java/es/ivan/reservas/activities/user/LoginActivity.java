@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final SessionManager sessionManager = new SessionManager(this);
 
-        if (sessionManager.canAccess()) {
+        if (sessionManager.hasToken()) {
             this.startActivity(new Intent(this, HomeActivity.class));
             this.finish();
             return;

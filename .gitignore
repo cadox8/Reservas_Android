@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/compiler.xml
+.idea
+
+/app/src/test
+/app/src/androidTest
