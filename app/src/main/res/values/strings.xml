@@ -6,4 +6,8 @@
     <string name="login">Entrar</string>
     <string name="register">Registrarse</string>
     <string name="forgot_password">Contraseña olvidada</string>
+
+    <string name="reservas">Reservas</string>
+    <string name="instalaciones">Instalaciones</string>
+    <string name="perfil">Perfil</string>
 </resources>

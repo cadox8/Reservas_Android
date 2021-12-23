@@ -6,7 +6,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
-import es.ivan.reservas.activities.HomeActivity;
+import es.ivan.reservas.activities.ReservationsActivity;
 import es.ivan.reservas.activities.user.LoginActivity;
 import es.ivan.reservas.managers.SessionManager;
 import es.ivan.reservas.utils.Utils;
@@ -32,7 +32,7 @@ public class Launcher extends AppCompatActivity {
         Intent intent;
 
         if (sessionManager.hasToken()) {
-            intent = new Intent(this, HomeActivity.class);
+            intent = new Intent(this, ReservationsActivity.class);
         } else {
             intent = new Intent(this, LoginActivity.class);
         }
