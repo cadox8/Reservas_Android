@@ -1,4 +1,4 @@
-package es.ivan.reservas.api;
+package es.ivan.espinardo.api;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,9 +12,13 @@ public class Installation extends AbstractAPI {
 
     private final String name;
     private final int installationType;
+
     private final double price;
+
     private final String location;
-    private final String image;
+
+    private final String thumbnail;
+    private final String[] carrousel;
 
     public InstallationType getInstallationType() {
         return InstallationType.parseType(this.installationType);
@@ -22,16 +26,23 @@ public class Installation extends AbstractAPI {
 
     @RequiredArgsConstructor
     public enum InstallationType {
-        FUTBOL(0),
-        BALONCESTO(1),
-        PADEL(2),
-        TENIS(3);
+        FUTBOL(0, 0, 0),
+        BALONCESTO(1, 0, 0),
+        PADEL(2, 0, 0),
+        TENIS(3, 0, 0);
 
         @Getter private final int id;
+        @Getter private final int color;
+        @Getter private final int icon;
 
         public static InstallationType parseType(int id) {
             for (InstallationType type : InstallationType.values()) if (type.getId() == id) return type;
             return null;
+        }
+
+        public String capitalize() {
+            final String oldName = this.name().toLowerCase();
+            return oldName.replace(oldName.charAt(0), Character.toUpperCase(oldName.charAt(0)));
         }
     }
 }

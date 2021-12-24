@@ -1,4 +1,4 @@
-package es.ivan.reservas.utils;
+package es.ivan.espinardo.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

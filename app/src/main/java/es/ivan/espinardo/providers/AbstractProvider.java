@@ -1,12 +1,12 @@
-package es.ivan.reservas.providers;
+package es.ivan.espinardo.providers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
-import es.ivan.reservas.api.AbstractAPI;
-import es.ivan.reservas.api.Error;
+import es.ivan.espinardo.api.AbstractAPI;
+import es.ivan.espinardo.api.Error;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

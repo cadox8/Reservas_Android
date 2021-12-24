@@ -1,4 +1,4 @@
-package es.ivan.reservas.activities.adapter;
+package es.ivan.espinardo.activities.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import es.ivan.reservas.R;
+import es.ivan.espinardo.R;
 
 public class InstallationsAdapter extends ArrayAdapter<String> {
 

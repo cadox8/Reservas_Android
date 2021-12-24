@@ -1,15 +1,17 @@
-package es.ivan.reservas;
+package es.ivan.espinardo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
-import es.ivan.reservas.activities.ReservationsActivity;
-import es.ivan.reservas.activities.user.LoginActivity;
-import es.ivan.reservas.managers.SessionManager;
-import es.ivan.reservas.utils.Utils;
+import es.ivan.espinardo.activities.main.BookingActivity;
+import es.ivan.espinardo.activities.user.LoginActivity;
+import es.ivan.espinardo.activities.utils.ErrorActivity;
+import es.ivan.espinardo.managers.SessionManager;
+import es.ivan.espinardo.utils.Utils;
 
 public class Launcher extends AppCompatActivity {
 
@@ -23,7 +25,8 @@ public class Launcher extends AppCompatActivity {
         utils.askForPermission(Manifest.permission.ACCESS_NETWORK_STATE);
 
         if (!utils.isNetworkAvailable()) {
-            this.setContentView(R.layout.activity_error);
+            this.startActivity(new Intent(this, ErrorActivity.with(this.getString(R.string.no_internet)).getClass()));
+            this.finish();
             return;
         }
 
@@ -32,7 +35,7 @@ public class Launcher extends AppCompatActivity {
         Intent intent;
 
         if (sessionManager.hasToken()) {
-            intent = new Intent(this, ReservationsActivity.class);
+            intent = new Intent(this, BookingActivity.class);
         } else {
             intent = new Intent(this, LoginActivity.class);
         }

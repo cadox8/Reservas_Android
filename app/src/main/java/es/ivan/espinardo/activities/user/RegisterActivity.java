@@ -1,13 +1,13 @@
-package es.ivan.reservas.activities.user;
+package es.ivan.espinardo.activities.user;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import es.ivan.reservas.R;
-import es.ivan.reservas.activities.ReservationsActivity;
-import es.ivan.reservas.managers.SessionManager;
+import es.ivan.espinardo.R;
+import es.ivan.espinardo.activities.main.BookingActivity;
+import es.ivan.espinardo.managers.SessionManager;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
         final SessionManager sessionManager = new SessionManager(this);
 
         if (sessionManager.hasToken()) {
-            this.startActivity(new Intent(this, ReservationsActivity.class));
+            this.startActivity(new Intent(this, BookingActivity.class));
             this.finish();
             return;
         }

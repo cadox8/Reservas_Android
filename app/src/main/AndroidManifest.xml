@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="es.ivan.reservas">
+    package="es.ivan.espinardo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reservas_Android">
         <activity
-            android:name=".Launcher"
+            android:name="es.ivan.espinardo.Launcher"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.user.LoginActivity" />
-        <activity android:name=".activities.user.RegisterActivity" />
 
-        <activity android:name=".activities.ReservationsActivity" />
-        <activity android:name=".activities.InstallationsActivity" />
+
+        <activity android:name="es.ivan.espinardo.activities.user.LoginActivity" />
+        <activity android:name="es.ivan.espinardo.activities.user.RegisterActivity" />
+
+        <activity android:name="es.ivan.espinardo.activities.main.BookingActivity" />
+        <activity android:name="es.ivan.espinardo.activities.main.InstallationsActivity" />
+
+
+        <activity android:name="es.ivan.espinardo.activities.InstallationActivity" />
     </application>
 
 </manifest>

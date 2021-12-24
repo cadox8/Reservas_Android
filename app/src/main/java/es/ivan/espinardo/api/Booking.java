@@ -1,4 +1,4 @@
-package es.ivan.reservas.api;
+package es.ivan.espinardo.api;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

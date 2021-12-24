@@ -10,4 +10,11 @@
     <string name="reservas">Reservas</string>
     <string name="instalaciones">Instalaciones</string>
     <string name="perfil">Perfil</string>
+
+    <string name="reservar">Reservar</string>
+    <string name="reservado">Reservado</string>
+    <string name="precio">Precio</string>
+    <string name="Ubicacion">Ubicación</string>
+
+    <string name="no_internet">Vaya, parece que no tienes internet en estos momentos.</string>
 </resources>

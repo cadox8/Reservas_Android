@@ -1,10 +1,10 @@
-package es.ivan.reservas.managers;
+package es.ivan.espinardo.managers;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import es.ivan.reservas.activities.user.LoginActivity;
+import es.ivan.espinardo.activities.user.LoginActivity;
 
 public class SessionManager {
 

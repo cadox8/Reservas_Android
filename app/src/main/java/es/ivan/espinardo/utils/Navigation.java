@@ -1,15 +1,15 @@
-package es.ivan.reservas.utils;
+package es.ivan.espinardo.utils;
 
-import static es.ivan.reservas.R.id.bottom_navigation;
+import static es.ivan.espinardo.R.id.bottom_navigation;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import es.ivan.reservas.R;
-import es.ivan.reservas.activities.InstallationsActivity;
-import es.ivan.reservas.activities.ReservationsActivity;
+import es.ivan.espinardo.R;
+import es.ivan.espinardo.activities.main.InstallationsActivity;
+import es.ivan.espinardo.activities.main.BookingActivity;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -28,13 +28,13 @@ public class Navigation {
 
             switch (item.getItemId()) {
                 case R.id.reservas:
-                    intent = new Intent(this.activity, ReservationsActivity.class);
+                    intent = new Intent(this.activity, BookingActivity.class);
                     break;
                 case R.id.instalaciones:
                     intent = new Intent(this.activity, InstallationsActivity.class);
                     break;
                 case R.id.perfil:
-                    intent = new Intent(this.activity, ReservationsActivity.class);
+                    intent = new Intent(this.activity, BookingActivity.class);
                     break;
                 default:
             }
