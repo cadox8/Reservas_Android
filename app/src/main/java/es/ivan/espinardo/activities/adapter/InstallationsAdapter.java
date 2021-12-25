@@ -1,6 +1,7 @@
 package es.ivan.espinardo.activities.adapter;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,25 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import es.ivan.espinardo.R;
+import es.ivan.espinardo.api.Installation;
+import es.ivan.espinardo.api.Installations;
 
-public class InstallationsAdapter extends ArrayAdapter<String> {
+public class InstallationsAdapter extends ArrayAdapter<Installation> {
 
     private final Activity context;
 
+    private final Installation[] installations;
 
-    private final String[] title;
-    private final String[] subtitle;
-    private final int[] imgid;
-
-    public InstallationsAdapter(Activity context, String[] title, String[] subtitle, int[] imgid) {
-        super(context, R.layout.installations_list, title);
-
+    public InstallationsAdapter(Activity context, Installation[] installations) {
+        super(context, R.layout.installations_list, installations);
 
         this.context = context;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.imgid = imgid;
-
+        this.installations = installations;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -38,9 +34,10 @@ public class InstallationsAdapter extends ArrayAdapter<String> {
         final ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         final TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
 
-        titleText.setText(title[position]);
-        imageView.setImageResource(imgid[position]);
-        subtitleText.setText(subtitle[position]);
+        titleText.setText(installations[position].getName());
+        imageView.setImageResource(R.drawable.no_image_background);
+        //imageView.setImageResource(this.context.g);
+        subtitleText.setText(installations[position].getInstallationType().capitalize() + " - " + installations[position].getPrice() + "€");
 
         return rowView;
     }

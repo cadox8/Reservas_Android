@@ -26,10 +26,11 @@ public class Installation extends AbstractAPI {
 
     @RequiredArgsConstructor
     public enum InstallationType {
-        FUTBOL(0, 0, 0),
-        BALONCESTO(1, 0, 0),
-        PADEL(2, 0, 0),
-        TENIS(3, 0, 0);
+        VARIADO(0, 0, 0),
+        FUTBOL(1, 0, 0),
+        BALONCESTO(2, 0, 0),
+        PADEL(3, 0, 0),
+        TENIS(4, 0, 0);
 
         @Getter private final int id;
         @Getter private final int color;

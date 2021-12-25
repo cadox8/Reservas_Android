@@ -15,7 +15,7 @@ import okhttp3.Response;
 
 public abstract class AbstractProvider extends Thread {
 
-    protected final String fetchURL = "http://cadox8.es/reservas/";
+    protected final String fetchURL = "http://cadox8.es:3010/";
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -29,7 +29,7 @@ public abstract class AbstractProvider extends Thread {
             return gson.fromJson(response.body().string(), apiReturn);
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            return (T) new Error("Error al hacer la petición al servidor");
+            return null;
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractProvider extends Thread {
             return gson.fromJson(response.body().string(), apiReturn);
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            return (T) new Error("Error al hacer la petición al servidor");
+            return null;
         }
     }
 

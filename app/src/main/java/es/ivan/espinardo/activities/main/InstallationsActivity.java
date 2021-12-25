@@ -18,22 +18,7 @@ import es.ivan.espinardo.utils.Navigation;
 
 public class InstallationsActivity extends AppCompatActivity {
 
-    // --- Temp ---
-    String[] maintitle ={
-            "Title 1","Title 2",
-            "Title 3"
-    };
-
-    String[] subtitle ={
-            "Sub Title 1","Sub Title 2",
-            "Sub Title 3"
-    };
-
-    int[] imgid={
-            R.drawable.instalaciones,R.drawable.reservas,
-            R.drawable.perfil
-    };
-    // --- ---
+     private Installation[] installations = new Installation[0];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +37,22 @@ public class InstallationsActivity extends AppCompatActivity {
         }
 
         final InstallationsProvider installationsProvider = new InstallationsProvider();
-        installationsProvider.start();
-        final Installation[] installations = installationsProvider.getAllInstallations();
-        installationsProvider.interrupt();
 
 
-        if (installations == null) {
-            this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
-            this.finish();
-            return;
-        }
+        new Thread(() -> {
+            installations = installationsProvider.getAllInstallations();
 
-        final InstallationsAdapter adapter = new InstallationsAdapter(this, maintitle, subtitle, imgid);
+            if (installations == null) {
+                this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
+                this.finish();
+            } else {
+                this.runOnUiThread(this::updateUI);
+            }
+        }).start();
+    }
+
+    private void updateUI() {
+        final InstallationsAdapter adapter = new InstallationsAdapter(this, installations);
         final ListView listView = this.findViewById(R.id.list_installations);
         listView.setAdapter(adapter);
 
