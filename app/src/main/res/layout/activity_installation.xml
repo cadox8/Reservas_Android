@@ -25,11 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/installation_name"
         android:textColor="@color/primaryTextColor"
         app:chipIconTint="@color/primaryTextColor"
-        android:checkable="false"
-
-        app:chipBackgroundColor="@color/primaryColor"
-        app:chipIcon="@drawable/perfil"
-        android:text="asasdsadsad"/>
+        android:checkable="false"/>
 
 
     <!-- Photos -->

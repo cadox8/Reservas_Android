@@ -3,7 +3,6 @@ package es.ivan.espinardo.activities.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +10,7 @@ import es.ivan.espinardo.R;
 import es.ivan.espinardo.activities.InstallationActivity;
 import es.ivan.espinardo.activities.adapter.InstallationsAdapter;
 import es.ivan.espinardo.activities.utils.ErrorActivity;
-import es.ivan.espinardo.api.Installation;
+import es.ivan.espinardo.api.installations.Installation;
 import es.ivan.espinardo.managers.SessionManager;
 import es.ivan.espinardo.providers.InstallationsProvider;
 import es.ivan.espinardo.utils.Navigation;
@@ -38,7 +37,6 @@ public class InstallationsActivity extends AppCompatActivity {
 
         final InstallationsProvider installationsProvider = new InstallationsProvider();
 
-
         new Thread(() -> {
             installations = installationsProvider.getAllInstallations();
 
@@ -57,7 +55,7 @@ public class InstallationsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((adapterView, view, position, id) -> {
-            this.startActivity(new Intent(this, InstallationActivity.from(installations[(int) id]).getClass()));
+            this.startActivity(new Intent(this, InstallationActivity.from(installations[position]).getClass()));
             this.finish();
         });
     }

@@ -1,5 +1,6 @@
-package es.ivan.espinardo.api;
+package es.ivan.espinardo.api.installations;
 
+import es.ivan.espinardo.api.AbstractAPI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;

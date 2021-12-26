@@ -2,8 +2,10 @@ package es.ivan.espinardo.providers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import es.ivan.espinardo.api.AbstractAPI;
 import es.ivan.espinardo.api.Error;
@@ -33,8 +35,14 @@ public abstract class AbstractProvider extends Thread {
         }
     }
 
-    public <T extends AbstractAPI> T post(Class<T> apiReturn, String url, String bodyJSON) {
-        final Request request = new Request.Builder().url(fetchURL + url).post(RequestBody.create(bodyJSON, JSON)).build();
+    public <T extends AbstractAPI> T post(Class<T> apiReturn, String url, HashMap<String, String> bodyData) {
+        final JsonObject body = new JsonObject();
+
+        final String[] keys = bodyData.keySet().toArray(new String[0]);
+
+        for (int i = 0; i < bodyData.size(); i++) body.addProperty(keys[i], bodyData.get(keys[i]));
+
+        final Request request = new Request.Builder().url(fetchURL + url).post(RequestBody.create(body.toString(), JSON)).build();
 
         try (final Response response = client.newCall(request).execute()) {
             return gson.fromJson(response.body().string(), apiReturn);

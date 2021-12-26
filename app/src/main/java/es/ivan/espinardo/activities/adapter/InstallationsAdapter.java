@@ -1,7 +1,6 @@
 package es.ivan.espinardo.activities.adapter;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import es.ivan.espinardo.R;
-import es.ivan.espinardo.api.Installation;
-import es.ivan.espinardo.api.Installations;
+import es.ivan.espinardo.api.installations.Installation;
 
 public class InstallationsAdapter extends ArrayAdapter<Installation> {
 
@@ -30,13 +28,17 @@ public class InstallationsAdapter extends ArrayAdapter<Installation> {
         final LayoutInflater inflater = context.getLayoutInflater();
         final View rowView = inflater.inflate(R.layout.installations_list, null, true);
 
-        final TextView titleText = (TextView) rowView.findViewById(R.id.title);
-        final ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        final TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
+        final TextView titleText = rowView.findViewById(R.id.title);
+        final ImageView imageView = rowView.findViewById(R.id.icon);
+        final TextView subtitleText = rowView.findViewById(R.id.subtitle);
 
         titleText.setText(installations[position].getName());
-        imageView.setImageResource(R.drawable.no_image_background);
         //imageView.setImageResource(this.context.g);
+
+        // Fetch image
+        final int resourceImg = this.context.getResources().getIdentifier(installations[position].getThumbnail(), "drawable", "es.ivan.espinardo");
+        imageView.setImageDrawable(this.context.getDrawable(resourceImg));
+
         subtitleText.setText(installations[position].getInstallationType().capitalize() + " - " + installations[position].getPrice() + "€");
 
         return rowView;

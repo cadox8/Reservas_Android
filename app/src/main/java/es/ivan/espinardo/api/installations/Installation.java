@@ -1,5 +1,7 @@
-package es.ivan.espinardo.api;
+package es.ivan.espinardo.api.installations;
 
+import es.ivan.espinardo.R;
+import es.ivan.espinardo.api.AbstractAPI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Installation extends AbstractAPI {
 
     private final String name;
-    private final int installationType;
+    private final int type;
 
     private final double price;
 
@@ -21,16 +23,16 @@ public class Installation extends AbstractAPI {
     private final String[] carrousel;
 
     public InstallationType getInstallationType() {
-        return InstallationType.parseType(this.installationType);
+        return InstallationType.parseType(this.type);
     }
 
     @RequiredArgsConstructor
     public enum InstallationType {
-        VARIADO(0, 0, 0),
-        FUTBOL(1, 0, 0),
-        BALONCESTO(2, 0, 0),
-        PADEL(3, 0, 0),
-        TENIS(4, 0, 0);
+        VARIADO(0, 0, R.drawable.i_general),
+        FUTBOL(1, 0, R.drawable.i_football),
+        BALONCESTO(2, 0, R.drawable.i_basket),
+        PADEL(3, 0, R.drawable.i_tennis),
+        TENIS(4, 0, R.drawable.i_tennis);
 
         @Getter private final int id;
         @Getter private final int color;
@@ -38,7 +40,7 @@ public class Installation extends AbstractAPI {
 
         public static InstallationType parseType(int id) {
             for (InstallationType type : InstallationType.values()) if (type.getId() == id) return type;
-            return null;
+            return VARIADO;
         }
 
         public String capitalize() {
