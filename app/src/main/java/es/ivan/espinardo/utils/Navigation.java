@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.activities.main.InstallationsActivity;
 import es.ivan.espinardo.activities.main.BookingActivity;
+import es.ivan.espinardo.activities.main.ProfileActivity;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class Navigation {
                     intent = new Intent(this.activity, InstallationsActivity.class);
                     break;
                 case R.id.perfil:
-                    intent = new Intent(this.activity, BookingActivity.class);
+                    intent = new Intent(this.activity, ProfileActivity.class);
                     break;
                 default:
             }

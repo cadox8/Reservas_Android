@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class Installation extends AbstractAPI {
 
+    private final int id;
+
     private final String name;
     private final int type;
 

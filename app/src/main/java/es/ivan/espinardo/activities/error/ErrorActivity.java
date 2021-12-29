@@ -1,4 +1,4 @@
-package es.ivan.espinardo.activities.utils;
+package es.ivan.espinardo.activities.error;
 
 import android.os.Bundle;
 import android.widget.TextView;

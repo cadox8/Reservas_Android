@@ -11,7 +11,7 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.activities.main.BookingActivity;
-import es.ivan.espinardo.activities.utils.ErrorActivity;
+import es.ivan.espinardo.activities.error.ErrorActivity;
 import es.ivan.espinardo.api.User;
 import es.ivan.espinardo.managers.SessionManager;
 import es.ivan.espinardo.providers.UserProvider;
@@ -36,7 +36,29 @@ public class LoginActivity extends AppCompatActivity {
         this.findViewById(R.id.button_login_login).setOnClickListener(view -> {
             final UserProvider userProvider = new UserProvider();
 
-            new Thread(() -> {
+            final TextInputEditText username = this.findViewById(R.id.edit_user_login_text);
+            final TextInputEditText password = this.findViewById(R.id.edit_password_login_text);
+
+            final User user = userProvider.login(username.getText().toString(), password.getText().toString());
+
+            if (user == null) {
+                this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
+                this.finish();
+                return;
+            }
+
+            if (user.getError() != null && !user.getError().trim().isEmpty()) {
+                DynamicToast.makeError(this, user.getError(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            DataUtils.setUser(user);
+            sessionManager.saveToken(user.getToken());
+            this.startActivity(new Intent(this, BookingActivity.class));
+            this.finish();
+
+            // --- Old Code ---
+/*            new Thread(() -> {
                 final TextInputEditText username = this.findViewById(R.id.edit_user_login_text);
                 final TextInputEditText password = this.findViewById(R.id.edit_password_login_text);
                 final User user = userProvider.login(username.getText().toString(), password.getText().toString());
@@ -56,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 sessionManager.saveToken(user.getToken());
                 this.startActivity(new Intent(this, BookingActivity.class));
                 this.finish();
-            }).start();
+            }).start();*/
         });
 
         this.findViewById(R.id.button_register_login).setOnClickListener(view -> {

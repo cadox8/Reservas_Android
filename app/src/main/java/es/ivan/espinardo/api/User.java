@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class User extends AbstractAPI {
 
+    private final int id;
+
     private final String token;
 
     private final String username;

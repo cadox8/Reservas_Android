@@ -1,4 +1,4 @@
-package es.ivan.espinardo.api.installations;
+package es.ivan.espinardo.api.payment;
 
 import es.ivan.espinardo.api.AbstractAPI;
 import lombok.Data;
@@ -6,9 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
-@RequiredArgsConstructor
 @Data
-public class Installations extends AbstractAPI {
+@RequiredArgsConstructor
+public class PaymentIntent extends AbstractAPI {
 
-    private Installation[] installations;
+    private final String clientSecret;
 }

@@ -7,15 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".activities.main.BookingActivity">
 
-    <include layout="@layout/navigation"/>
-
-    <TextView
-        android:id="@+id/textView2"
+    <com.google.android.material.chip.Chip
+        android:id="@+id/booking_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="166dp"
-        android:layout_marginTop="189dp"
-        android:text="TextView"
+        android:layout_marginTop="341dp"
+        android:checkable="false"
+        android:textColor="@color/primaryTextColor"
+        app:chipIconTint="@color/primaryTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/list_bookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/navigation"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,10 @@ public class SessionManager {
         return this.sharedPreferences.contains("token");
     }
 
+    public String getToken() {
+        return this.sharedPreferences.getString("token", "");
+    }
+
     public void removeToken() {
         final SharedPreferences.Editor editor = this.sharedPreferences.edit();
         editor.remove("token");

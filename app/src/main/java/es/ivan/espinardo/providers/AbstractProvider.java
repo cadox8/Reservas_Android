@@ -1,11 +1,16 @@
 package es.ivan.espinardo.providers;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import es.ivan.espinardo.api.AbstractAPI;
 import es.ivan.espinardo.api.Error;
@@ -15,11 +20,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public abstract class AbstractProvider extends Thread {
+public abstract class AbstractProvider {
 
     protected final String fetchURL = "http://cadox8.es:3010/";
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    protected final ExecutorService pool = Executors.newFixedThreadPool(1);
 
     private final OkHttpClient client = new OkHttpClient();
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -50,10 +57,5 @@ public abstract class AbstractProvider extends Thread {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Override
-    public void run() {
-
     }
 }

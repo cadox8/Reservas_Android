@@ -1,10 +1,12 @@
 package es.ivan.espinardo.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,5 +27,11 @@ public class Utils {
         final ConnectivityManager connectivityManager = (ConnectivityManager) this.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void showAlert(String title, @Nullable String message) {
+        final AlertDialog dialog = new AlertDialog.Builder(this.activity.getApplicationContext())
+                .setTitle(title).setMessage(message).setPositiveButton("Ok", null).create();
+        dialog.show();
     }
 }

@@ -5,15 +5,19 @@
     <string name="password">Contraseña</string>
     <string name="login">Entrar</string>
     <string name="register">Registrarse</string>
+    <string name="logout">Desconectarse</string>
     <string name="forgot_password">Contraseña olvidada</string>
 
     <string name="reservas">Reservas</string>
     <string name="instalaciones">Instalaciones</string>
     <string name="perfil">Perfil</string>
 
-    <string name="reservar">Reservar</string>
+    <string name="reservar"> %s€ - Reservar</string>
     <string name="reservado">Reservado</string>
-    <string name="precio">Precio</string>
+    <string name="date">Fecha y Hora</string>
+    <string name="select_date">Seleccione la fecha</string>
+    <string name="select_time">Seleccione la hora</string>
+    <string name="times">Horas</string>
     <string name="Ubicacion">Ubicación</string>
 
     <string name="no_internet">Vaya, parece que no tienes internet en estos momentos.</string>

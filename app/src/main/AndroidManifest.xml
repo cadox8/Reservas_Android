@@ -17,6 +17,8 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config">
 
+        <meta-data android:name="com.google.android.gms.wallet.api.enabled" android:value="true" />
+
         <activity
             android:name="es.ivan.espinardo.Launcher"
             android:exported="true">
@@ -33,9 +35,11 @@
 
         <activity android:name="es.ivan.espinardo.activities.main.BookingActivity" />
         <activity android:name="es.ivan.espinardo.activities.main.InstallationsActivity" />
-
+        <activity android:name="es.ivan.espinardo.activities.main.ProfileActivity" />
 
         <activity android:name="es.ivan.espinardo.activities.InstallationActivity" />
+
+        <activity android:name="es.ivan.espinardo.activities.error.ErrorActivity" />
     </application>
 
 </manifest>

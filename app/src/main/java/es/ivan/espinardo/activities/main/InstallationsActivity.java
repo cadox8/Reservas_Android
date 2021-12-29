@@ -9,15 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.activities.InstallationActivity;
 import es.ivan.espinardo.activities.adapter.InstallationsAdapter;
-import es.ivan.espinardo.activities.utils.ErrorActivity;
+import es.ivan.espinardo.activities.error.ErrorActivity;
 import es.ivan.espinardo.api.installations.Installation;
 import es.ivan.espinardo.managers.SessionManager;
 import es.ivan.espinardo.providers.InstallationsProvider;
 import es.ivan.espinardo.utils.Navigation;
 
 public class InstallationsActivity extends AppCompatActivity {
-
-     private Installation[] installations = new Installation[0];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,27 +34,20 @@ public class InstallationsActivity extends AppCompatActivity {
         }
 
         final InstallationsProvider installationsProvider = new InstallationsProvider();
+        final Installation[] installations = installationsProvider.getAllInstallations();
 
-        new Thread(() -> {
-            installations = installationsProvider.getAllInstallations();
-
-            if (installations == null) {
-                this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
-                this.finish();
-            } else {
-                this.runOnUiThread(this::updateUI);
-            }
-        }).start();
-    }
-
-    private void updateUI() {
-        final InstallationsAdapter adapter = new InstallationsAdapter(this, installations);
-        final ListView listView = this.findViewById(R.id.list_installations);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener((adapterView, view, position, id) -> {
-            this.startActivity(new Intent(this, InstallationActivity.from(installations[position]).getClass()));
+        if (installations == null) {
+            this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
             this.finish();
-        });
+        } else {
+            final InstallationsAdapter adapter = new InstallationsAdapter(this, installations);
+            final ListView listView = this.findViewById(R.id.list_installations);
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener((adapterView, view, position, id) -> {
+                this.startActivity(new Intent(this, InstallationActivity.from(installations[position]).getClass()));
+                this.finish();
+            });
+        }
     }
 }
