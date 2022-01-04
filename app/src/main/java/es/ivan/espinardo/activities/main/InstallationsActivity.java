@@ -7,7 +7,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ivan.espinardo.R;
-import es.ivan.espinardo.activities.InstallationActivity;
+import es.ivan.espinardo.activities.helpers.InstallationActivity;
 import es.ivan.espinardo.activities.adapter.InstallationsAdapter;
 import es.ivan.espinardo.activities.error.ErrorActivity;
 import es.ivan.espinardo.api.installations.Installation;

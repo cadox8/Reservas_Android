@@ -7,10 +7,9 @@ import es.ivan.espinardo.api.payment.PaymentIntent;
 
 public class PaymentProvider extends AbstractProvider {
 
-    public PaymentIntent fetchPaymentIntent(double price, int hours) {
+    public PaymentIntent fetchPaymentIntent(double price) {
         final HashMap<String, String> body = new HashMap<>();
         body.put("price", String.valueOf(price));
-        body.put("hours", String.valueOf(hours));
 
         PaymentIntent paymentIntent;
         try {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import es.ivan.espinardo.api.AbstractAPI;
+import es.ivan.espinardo.api.Confirmation;
 import es.ivan.espinardo.api.bookings.AvailableTimes;
 import es.ivan.espinardo.api.bookings.Booking;
 import es.ivan.espinardo.api.bookings.Bookings;
@@ -12,16 +13,16 @@ import es.ivan.espinardo.api.payment.PaymentIntent;
 
 public class BookingProvider extends AbstractProvider {
 
-    public AbstractAPI booking(int user_id, int installation_id, long date, String times) {
+    public Confirmation booking(int user_id, int installation_id, long date, String times) {
         final HashMap<String, String> body = new HashMap<>();
         body.put("user_id", String.valueOf(user_id));
         body.put("installation_id", String.valueOf(installation_id));
         body.put("date", String.valueOf(date));
         body.put("times", times);
 
-        AbstractAPI status;
+        Confirmation status;
         try {
-            status = this.pool.submit(() -> this.post(AbstractAPI.class, "booking/book", body)).get();
+            status = this.pool.submit(() -> this.post(Confirmation.class, "booking/book", body)).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             status = null;

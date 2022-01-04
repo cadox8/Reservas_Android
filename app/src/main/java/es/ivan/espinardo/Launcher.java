@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.stripe.android.PaymentConfiguration;
 
-import es.ivan.espinardo.activities.main.BookingActivity;
+import es.ivan.espinardo.activities.main.BookingsActivity;
 import es.ivan.espinardo.activities.user.LoginActivity;
 import es.ivan.espinardo.activities.error.ErrorActivity;
 import es.ivan.espinardo.managers.SessionManager;
@@ -44,7 +44,7 @@ public class Launcher extends AppCompatActivity {
         Intent intent;
 
         if (sessionManager.hasToken()) {
-            intent = new Intent(this, BookingActivity.class);
+            intent = new Intent(this, BookingsActivity.class);
             DataUtils.setUser(new UserProvider().fetchUserByToken(sessionManager.getToken()));
         } else {
             intent = new Intent(this, LoginActivity.class);

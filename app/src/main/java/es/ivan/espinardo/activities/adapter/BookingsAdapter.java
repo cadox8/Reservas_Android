@@ -43,7 +43,7 @@ public class BookingsAdapter extends ArrayAdapter<Booking> {
         imageView.setImageDrawable(this.context.getDrawable(resourceImg));
 
         final int times = bookings[position].getTimes().length;
-        subtitleText.setText(new SimpleDateFormat("hh:mm:ss").format(bookings[position].getDate()) + " - " + times + (times > 1 ? "horas" : "hora"));
+        subtitleText.setText(new SimpleDateFormat("hh:mm:ss").format(bookings[position].getDate()) + " - " + times + (times > 1 ? " horas" : " hora"));
 
         return rowView;
     }

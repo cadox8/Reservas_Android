@@ -33,11 +33,12 @@
         <activity android:name="es.ivan.espinardo.activities.user.LoginActivity" />
         <activity android:name="es.ivan.espinardo.activities.user.RegisterActivity" />
 
-        <activity android:name="es.ivan.espinardo.activities.main.BookingActivity" />
+        <activity android:name="es.ivan.espinardo.activities.main.BookingsActivity" />
         <activity android:name="es.ivan.espinardo.activities.main.InstallationsActivity" />
         <activity android:name="es.ivan.espinardo.activities.main.ProfileActivity" />
 
-        <activity android:name="es.ivan.espinardo.activities.InstallationActivity" />
+        <activity android:name="es.ivan.espinardo.activities.helpers.InstallationActivity" />
+        <activity android:name="es.ivan.espinardo.activities.helpers.BookingActivity" />
 
         <activity android:name="es.ivan.espinardo.activities.error.ErrorActivity" />
     </application>

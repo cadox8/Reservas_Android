@@ -11,6 +11,7 @@ import es.ivan.espinardo.activities.user.LoginActivity;
 import es.ivan.espinardo.api.User;
 import es.ivan.espinardo.managers.SessionManager;
 import es.ivan.espinardo.utils.DataUtils;
+import es.ivan.espinardo.utils.Navigation;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -19,6 +20,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.overridePendingTransition(0, 0); // smooth transitions
         this.setContentView(R.layout.activity_profile);
+
+        final Navigation navigation = new Navigation(this);
+        navigation.changePage(R.id.perfil);
 
         final User user = DataUtils.getUser();
 

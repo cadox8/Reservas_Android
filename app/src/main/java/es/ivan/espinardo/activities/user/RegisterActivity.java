@@ -10,7 +10,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import es.ivan.espinardo.R;
-import es.ivan.espinardo.activities.main.BookingActivity;
+import es.ivan.espinardo.activities.main.BookingsActivity;
 import es.ivan.espinardo.activities.error.ErrorActivity;
 import es.ivan.espinardo.api.User;
 import es.ivan.espinardo.managers.SessionManager;
@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         final SessionManager sessionManager = new SessionManager(this);
 
         if (sessionManager.hasToken()) {
-            this.startActivity(new Intent(this, BookingActivity.class));
+            this.startActivity(new Intent(this, BookingsActivity.class));
             this.finish();
             return;
         }
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
             DataUtils.setUser(user);
             sessionManager.saveToken(user.getToken());
             DynamicToast.makeSuccess(this, "Usuario creado", Toast.LENGTH_SHORT).show();
-            this.startActivity(new Intent(this, BookingActivity.class));
+            this.startActivity(new Intent(this, BookingsActivity.class));
             this.finish();
         });
 

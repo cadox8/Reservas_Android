@@ -1,4 +1,4 @@
-package es.ivan.espinardo.activities;
+package es.ivan.espinardo.activities.helpers;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -77,7 +77,7 @@ public class InstallationActivity extends AppCompatActivity {
             }
 
             final PaymentProvider paymentProvider = new PaymentProvider();
-            final PaymentIntent paymentIntent = paymentProvider.fetchPaymentIntent(installation.getPrice(), 1);
+            final PaymentIntent paymentIntent = paymentProvider.fetchPaymentIntent(installation.getPrice() * this.counter);
 
             if (paymentIntent == null) {
                 this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
@@ -127,7 +127,7 @@ public class InstallationActivity extends AppCompatActivity {
 
         final Calendar calendar = Calendar.getInstance();
         final MaterialButton date = this.findViewById(R.id.button_date);
-        date.setText(new SimpleDateFormat("dd-mm-yyyy").format(Calendar.getInstance().getTime()));
+        date.setText(new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
         date.setOnClickListener((view) -> {
             final CalendarConstraints constraintsBuilder = new CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now()).build();
             final MaterialDatePicker<Long> picker = MaterialDatePicker.Builder.datePicker().setCalendarConstraints(constraintsBuilder).setTitleText("Seleccione la fecha")
@@ -137,7 +137,8 @@ public class InstallationActivity extends AppCompatActivity {
                 calendar.setTimeInMillis(selection);
                 this.availableTimes = bookingProvider.getAvailableTimes(installation.getId(), calendar.getTime());
                 this.selectedTimes = new boolean[availableTimes.length];
-                date.setText(new SimpleDateFormat("dd-mm-yyyy").format(calendar.getTime()));
+                date.setText(new SimpleDateFormat("dd-MM-yyyy").format(calendar.getTime()));
+                this.counter = 0;
             });
         });
 
@@ -160,9 +161,9 @@ public class InstallationActivity extends AppCompatActivity {
 
                 if (sb.charAt(sb.length() - 1) == '_') sb.deleteCharAt(sb.length() - 1);
 
-                final AbstractAPI error = bookingProvider.booking(DataUtils.getUser().getId(), installation.getId(), calendar.getTime().getTime(), sb.toString());
+                final AbstractAPI error = bookingProvider.booking(DataUtils.getUser().getId(), installation.getId(), calendar.getTimeInMillis(), sb.toString());
 
-                if (error.getError() != null || !error.getError().trim().isEmpty()) {
+                if (error.getError() != null && !error.getError().trim().isEmpty()) {
                     DynamicToast.makeError(this, "No se ha podido completar la reserva!", Toast.LENGTH_SHORT).show();
                     return;
                 }

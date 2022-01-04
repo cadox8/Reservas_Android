@@ -22,7 +22,6 @@ public class Installation extends AbstractAPI {
     private final String location;
 
     private final String thumbnail;
-    private final String[] carrousel;
 
     public InstallationType getInstallationType() {
         return InstallationType.parseType(this.type);

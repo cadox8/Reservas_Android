@@ -17,7 +17,7 @@ public class Booking extends AbstractAPI {
     private final String token;
     private final User user;
     private final Installation installation;
-    private final int date;
+    private final long date;
 
     private final String times;
 
@@ -30,5 +30,20 @@ public class Booking extends AbstractAPI {
         final CharSequence[] result = new CharSequence[splitTimes.length];
         System.arraycopy(splitTimes, 0, result, 0, splitTimes.length);
         return result;
+    }
+
+    public CharSequence[] getFixedTimes() {
+        final CharSequence[] availableTimes = this.getTimes();
+        for (int i = 0; i < availableTimes.length; i++) {
+            final StringBuilder sb = new StringBuilder();
+            if (availableTimes[i].length() == 1) {
+                sb.append(0).append(availableTimes[i]);
+            } else {
+                sb.append(availableTimes[i]);
+            }
+            sb.append(":").append("00");
+            availableTimes[i] = sb.toString();
+        }
+        return availableTimes;
     }
 }
