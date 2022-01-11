@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -154,7 +155,7 @@ public class InstallationActivity extends AppCompatActivity {
                 for (int i = 0; i < this.availableTimes.length; i++) {
                     if (this.selectedTimes[i]) {
                         String ti = this.availableTimes[i].toString().split(":")[0];
-                        if (ti.startsWith("0")) ti = ti.substring(1, 1);
+                        if (ti.startsWith("0")) ti = ti.replaceFirst("0", "");
                         sb.append(ti).append("_");
                     }
                 }
