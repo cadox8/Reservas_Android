@@ -1,14 +1,11 @@
 package es.ivan.espinardo.api.bookings;
 
-import android.text.format.DateFormat;
-
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import es.ivan.espinardo.api.AbstractAPI;
-import es.ivan.espinardo.api.installations.Installation;
 import es.ivan.espinardo.api.User;
+import es.ivan.espinardo.api.installations.Installation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +21,12 @@ public class Booking extends AbstractAPI {
     private final String date;
 
     private final String times;
+
+    private final int enabled;
+
+    public boolean isEnabled() {
+        return this.enabled == 1;
+    }
 
     public Date getDate() {
         final String[] date = this.date.split("T")[0].replaceAll("T", "").split("-");

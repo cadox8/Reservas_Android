@@ -92,6 +92,12 @@ public class BookingActivity extends AppCompatActivity {
                 chip.setChipIcon(this.getDrawable(R.drawable.i_tennis));
                 break;
         }
+
+        // Chip moment! 2
+        final Chip chip2 = this.findViewById(R.id.booking_tag2);
+        chip2.setText(booking.isEnabled() ? "Reserva iniciada" : "Reserva sin iniciar");
+        chip2.setTextColor(Color.BLACK);
+        chip2.setChipBackgroundColor(booking.isEnabled() ? ColorStateList.valueOf(Color.GREEN) : ColorStateList.valueOf(Color.RED));
     }
 
     public static BookingActivity from(Booking booking) {

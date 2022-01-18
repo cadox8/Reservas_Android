@@ -27,6 +27,17 @@
         app:chipIconTint="@color/primaryTextColor"
         android:checkable="false"/>
 
+    <com.google.android.material.chip.Chip
+        android:id="@+id/booking_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_cancel_booking"
+        android:textColor="@color/primaryTextColor"
+        app:chipIconTint="@color/primaryTextColor"
+        android:checkable="false"/>
+
     <TextView
         android:id="@+id/booking_date"
         android:layout_width="wrap_content"
