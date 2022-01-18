@@ -1,6 +1,12 @@
 package es.ivan.espinardo.activities.helpers;
 
+import android.Manifest;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.datepicker.CalendarConstraints;
@@ -21,8 +40,10 @@ import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.activities.error.ErrorActivity;
@@ -30,21 +51,23 @@ import es.ivan.espinardo.api.AbstractAPI;
 import es.ivan.espinardo.api.installations.Installation;
 import es.ivan.espinardo.api.payment.PaymentIntent;
 import es.ivan.espinardo.managers.SessionManager;
+import es.ivan.espinardo.notification.NotificationPublisher;
+import es.ivan.espinardo.notification.NotificationUtils;
 import es.ivan.espinardo.providers.BookingProvider;
 import es.ivan.espinardo.providers.PaymentProvider;
 import es.ivan.espinardo.utils.DataUtils;
 import es.ivan.espinardo.utils.Utils;
 
-public class InstallationActivity extends AppCompatActivity {
+public class InstallationActivity extends AppCompatActivity implements OnMapReadyCallback, RoutingListener {
 
     private static Installation installation;
 
     private PaymentSheet paymentSheet;
 
-    private int counter = 0;
-
     private CharSequence[] availableTimes;
-    private boolean[] selectedTimes;
+    private String time = null;
+
+    private GoogleMap gMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +83,11 @@ public class InstallationActivity extends AppCompatActivity {
             return;
         }
 
+        final SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
         // --- Data ---
         this.availableTimes = bookingProvider.getAvailableTimes(installation.getId(), new Date());
-        this.selectedTimes = new boolean[availableTimes.length];
         // --- ---
 
         // --- Payment ---
@@ -72,13 +97,13 @@ public class InstallationActivity extends AppCompatActivity {
         // Card: 4000 0072 4000 0007
 
         button.setOnClickListener((view) -> {
-            if (!this.anyMatch(this.selectedTimes, true)) {
+            if (this.time == null || this.time.trim().isEmpty()) {
                 DynamicToast.makeError(this, "Selecciona las horas para la reserva", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             final PaymentProvider paymentProvider = new PaymentProvider();
-            final PaymentIntent paymentIntent = paymentProvider.fetchPaymentIntent(installation.getPrice() * this.counter);
+            final PaymentIntent paymentIntent = paymentProvider.fetchPaymentIntent(installation.getPrice());
 
             if (paymentIntent == null) {
                 this.startActivity(new Intent(this, ErrorActivity.with("Server error").getClass()));
@@ -100,7 +125,7 @@ public class InstallationActivity extends AppCompatActivity {
         });
 
         // --- Populate page ---
-        ((TextView)this.findViewById(R.id.installation_name)).setText(installation.getName());
+        ((TextView) this.findViewById(R.id.installation_name)).setText(installation.getName());
 
         final MaterialButton times = this.findViewById(R.id.button_time);
         times.setOnClickListener(view -> {
@@ -114,13 +139,8 @@ public class InstallationActivity extends AppCompatActivity {
 
             }).setPositiveButton("Aceptar", (dialog, witch) -> {
 
-            }).setMultiChoiceItems(this.availableTimes, this.selectedTimes, (dialog, which, isChecked) -> {
-                this.selectedTimes[which] = isChecked;
-                if (isChecked) {
-                    this.counter++;
-                } else {
-                    this.counter--;
-                }
+            }).setSingleChoiceItems(this.availableTimes, -1, (dialog, which) -> {
+                this.time = this.availableTimes[which].toString();
                 this.updateTextButton(button);
             });
             dialogBuilder.show();
@@ -137,9 +157,7 @@ public class InstallationActivity extends AppCompatActivity {
             picker.addOnPositiveButtonClickListener(selection -> {
                 calendar.setTimeInMillis(selection);
                 this.availableTimes = bookingProvider.getAvailableTimes(installation.getId(), calendar.getTime());
-                this.selectedTimes = new boolean[availableTimes.length];
                 date.setText(new SimpleDateFormat("dd-MM-yyyy").format(calendar.getTime()));
-                this.counter = 0;
             });
         });
 
@@ -150,24 +168,24 @@ public class InstallationActivity extends AppCompatActivity {
                 button.setText("Reservado");
 
                 //
-                final StringBuilder sb = new StringBuilder();
-
-                for (int i = 0; i < this.availableTimes.length; i++) {
-                    if (this.selectedTimes[i]) {
-                        String ti = this.availableTimes[i].toString().split(":")[0];
-                        if (ti.startsWith("0")) ti = ti.replaceFirst("0", "");
-                        sb.append(ti).append("_");
-                    }
-                }
-
-                if (sb.charAt(sb.length() - 1) == '_') sb.deleteCharAt(sb.length() - 1);
-
-                final AbstractAPI error = bookingProvider.booking(DataUtils.getUser().getId(), installation.getId(), calendar.getTimeInMillis(), sb.toString());
+                final AbstractAPI error = bookingProvider.booking(DataUtils.getUser().getId(), installation.getId(), calendar.getTimeInMillis(), this.time);
 
                 if (error.getError() != null && !error.getError().trim().isEmpty()) {
                     DynamicToast.makeError(this, "No se ha podido completar la reserva!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                // --- Schedule Notification ---
+                final Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+                notificationIntent.putExtra("espinardo_info", 1);
+                notificationIntent.putExtra("expinardo_book", new NotificationUtils().createNotification(this, "Reserva " + installation.getName()));
+                final PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                final AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+                assert alarmManager != null;
+                calendar.add(Calendar.HOUR_OF_DAY, -1);
+                calendar.add(Calendar.MINUTE, 30);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
                 DynamicToast.makeSuccess(this, "Reserva completada", Toast.LENGTH_SHORT).show();
                 // Disable inputs
                 button.setEnabled(false);
@@ -209,6 +227,68 @@ public class InstallationActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.gMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return;
+        }
+        this.gMap.setMyLocationEnabled(true);
+
+        final Routing routing = new Routing.Builder().travelMode(AbstractRouting.TravelMode.WALKING).withListener(this)
+                .waypoints(this.gMap.getCameraPosition().target, installation.getLocation())
+                .key("AIzaSyDu4WmedJpgV45HscxoGFALkhMaFgrIOmo")
+                .build();
+        routing.execute();
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        Log.e("check", e.getMessage());
+    }
+
+    @Override
+    public void onRoutingStart() {
+        Log.e("check", "onRoutingStart");
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        Log.e("check", "onRoutingSuccess");
+        CameraUpdate center = CameraUpdateFactory.newLatLng(this.gMap.getCameraPosition().target);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
+        List<Polyline> polylines = new ArrayList<>();
+
+        this.gMap.moveCamera(center);
+
+
+        if (polylines.size() > 0) {
+            for (Polyline poly : polylines) {
+                poly.remove();
+            }
+        }
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map.
+        for (int i = 0; i < route.size(); i++) {
+
+            //In case of more than 5 alternative routes
+
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(Color.RED);
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(route.get(i).getPoints());
+            Polyline polyline = this.gMap.addPolyline(polyOptions);
+            polylines.add(polyline);
+        }
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+        Log.e("check", "onRoutingCancelled");
+    }
+
     public static InstallationActivity from(Installation installation) {
         InstallationActivity.installation = installation;
         return new InstallationActivity();
@@ -216,7 +296,7 @@ public class InstallationActivity extends AppCompatActivity {
 
     private void updateTextButton(MaterialButton button) {
         final String text = this.getResources().getString(R.string.reservar);
-        button.setText(text.replaceAll("%s", (this.counter == 0 ? installation.getPrice() : installation.getPrice() * this.counter) + ""));
+        button.setText(text.replaceAll("%s", installation.getPrice() + ""));
     }
 
     private boolean anyMatch(boolean[] array, boolean match) {

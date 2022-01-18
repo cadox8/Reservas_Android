@@ -58,4 +58,15 @@ public abstract class AbstractProvider {
             return null;
         }
     }
+
+    public <T extends AbstractAPI> T delete(Class<T> apiReturn, String url) {
+        final Request request = new Request.Builder().url(fetchURL + url).delete().build();
+
+        try (final Response response = client.newCall(request).execute()) {
+            return gson.fromJson(response.body().string(), apiReturn);
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,5 +1,9 @@
 package es.ivan.espinardo.api.installations;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.api.AbstractAPI;
 import lombok.Data;
@@ -22,6 +26,11 @@ public class Installation extends AbstractAPI {
     private final String location;
 
     private final String thumbnail;
+
+    public LatLng getLocation() {
+        final String[] parts = this.location.split("%");
+        return new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
+    }
 
     public InstallationType getInstallationType() {
         return InstallationType.parseType(this.type);

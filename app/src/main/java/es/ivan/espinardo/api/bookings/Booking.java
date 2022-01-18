@@ -1,5 +1,9 @@
 package es.ivan.espinardo.api.bookings;
 
+import android.text.format.DateFormat;
+
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 import es.ivan.espinardo.api.AbstractAPI;
@@ -17,33 +21,14 @@ public class Booking extends AbstractAPI {
     private final String token;
     private final User user;
     private final Installation installation;
-    private final long date;
+    private final String date;
 
     private final String times;
 
     public Date getDate() {
-        return new Date(this.date);
-    }
-
-    public CharSequence[] getTimes() {
-        final String[] splitTimes = this.times.split("_");
-        final CharSequence[] result = new CharSequence[splitTimes.length];
-        System.arraycopy(splitTimes, 0, result, 0, splitTimes.length);
-        return result;
-    }
-
-    public CharSequence[] getFixedTimes() {
-        final CharSequence[] availableTimes = this.getTimes();
-        for (int i = 0; i < availableTimes.length; i++) {
-            final StringBuilder sb = new StringBuilder();
-            if (availableTimes[i].length() == 1) {
-                sb.append(0).append(availableTimes[i]);
-            } else {
-                sb.append(availableTimes[i]);
-            }
-            sb.append(":").append("00");
-            availableTimes[i] = sb.toString();
-        }
-        return availableTimes;
+        final String[] date = this.date.split("T")[0].replaceAll("T", "").split("-");
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]), Integer.parseInt(times.split(":")[0]), 0);
+        return calendar.getTime();
     }
 }

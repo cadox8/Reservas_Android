@@ -77,4 +77,12 @@ public class BookingProvider extends AbstractProvider {
         }
         return booking;
     }
+
+    public void removeBooking(String booking) {
+        try {
+            this.pool.submit(() -> this.delete(Bookings.class, "booking/" + booking)).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

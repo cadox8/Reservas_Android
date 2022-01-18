@@ -20,6 +20,7 @@
     <string name="select_time">Seleccione la hora</string>
     <string name="times">Horas</string>
     <string name="Ubicacion">Ubicación</string>
+    <string name="delete">Cancelar reserva</string>
 
     <string name="no_internet">Vaya, parece que no tienes internet en estos momentos.</string>
 </resources>

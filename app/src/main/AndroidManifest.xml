@@ -4,6 +4,7 @@
     android:targetSandboxVersion="1"
     package="es.ivan.espinardo">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -41,6 +42,13 @@
         <activity android:name="es.ivan.espinardo.activities.helpers.BookingActivity" />
 
         <activity android:name="es.ivan.espinardo.activities.error.ErrorActivity" />
+
+        <receiver android:name= "es.ivan.espinardo.notification.NotificationPublisher" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDu4WmedJpgV45HscxoGFALkhMaFgrIOmo" />
+
     </application>
 
 </manifest>

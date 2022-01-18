@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import es.ivan.espinardo.R;
 import es.ivan.espinardo.api.bookings.Booking;
@@ -42,8 +43,11 @@ public class BookingsAdapter extends ArrayAdapter<Booking> {
         final int resourceImg = this.context.getResources().getIdentifier(bookings[position].getInstallation().getThumbnail(), "drawable", "es.ivan.espinardo");
         imageView.setImageDrawable(this.context.getDrawable(resourceImg));
 
-        final int times = bookings[position].getTimes().length;
-        subtitleText.setText(new SimpleDateFormat("hh:mm:ss").format(bookings[position].getDate()) + " - " + times + (times > 1 ? " horas" : " hora"));
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(bookings[position].getDate());
+        //calendar.add(Calendar.HOUR_OF_DAY, Integer.parseInt(bookings[position].getTimes().split(":")[0]));
+
+        subtitleText.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(calendar.getTime()));
 
         return rowView;
     }

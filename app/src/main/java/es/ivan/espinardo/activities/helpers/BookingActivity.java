@@ -1,5 +1,6 @@
 package es.ivan.espinardo.activities.helpers;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -23,7 +24,9 @@ import java.util.Arrays;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import es.ivan.espinardo.R;
+import es.ivan.espinardo.activities.main.BookingsActivity;
 import es.ivan.espinardo.api.bookings.Booking;
+import es.ivan.espinardo.providers.BookingProvider;
 
 public class BookingActivity extends AppCompatActivity {
 
@@ -36,9 +39,7 @@ public class BookingActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_booking);
 
         ((TextView)this.findViewById(R.id.booking_name)).setText(booking.getInstallation().getName());
-        ((TextView)this.findViewById(R.id.booking_date)).setText(new SimpleDateFormat("dd-mm-yyy").format(booking.getDate()));
-
-        ((TextView)this.findViewById(R.id.booking_time)).setText(Arrays.toString(booking.getFixedTimes()));
+        ((TextView)this.findViewById(R.id.booking_date)).setText(new SimpleDateFormat("dd-MM-yyy").format(booking.getDate()) + ' ' + booking.getTimes());
 
         // --- QR ---
 
@@ -57,6 +58,14 @@ public class BookingActivity extends AppCompatActivity {
             DynamicToast.makeError(this, "No se ha podido generar el QR", Toast.LENGTH_SHORT).show();
         }
         // --- ---
+
+        // --- Cancel booking ---
+        this.findViewById(R.id.button_cancel_booking).setOnClickListener(view -> {
+            new BookingProvider().removeBooking(booking.getToken());
+            this.startActivity(new Intent(this, BookingsActivity.class));
+            this.finish();
+        });
+        // --- ----
 
         // Chip moment!
         final Chip chip = this.findViewById(R.id.booking_tag);
