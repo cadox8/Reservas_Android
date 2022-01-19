@@ -50,7 +50,7 @@ public class BookingActivity extends AppCompatActivity {
         final int width = point.x;
         final int height = point.y;
 
-        final QRGEncoder qr = new QRGEncoder(booking.getToken(), null, QRGContents.Type.TEXT, Math.min(width, height) * 3 / 4);
+        final QRGEncoder qr = new QRGEncoder("http://cadox8.es:3010/booking/enable/" + booking.getToken(), null, QRGContents.Type.TEXT, Math.min(width, height) * 3 / 4);
         try {
             ((ImageView) this.findViewById(R.id.booking_qr)).setImageBitmap(qr.encodeAsBitmap());
         } catch (WriterException e) {

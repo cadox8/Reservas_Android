@@ -176,7 +176,7 @@ public class InstallationActivity extends AppCompatActivity implements OnMapRead
                 }
 
                 // --- Schedule Notification ---
-                final Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+/*                final Intent notificationIntent = new Intent(this, NotificationPublisher.class);
                 notificationIntent.putExtra("espinardo_info", 1);
                 notificationIntent.putExtra("expinardo_book", new NotificationUtils().createNotification(this, "Reserva " + installation.getName()));
                 final PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -184,7 +184,7 @@ public class InstallationActivity extends AppCompatActivity implements OnMapRead
                 assert alarmManager != null;
                 calendar.add(Calendar.HOUR_OF_DAY, -1);
                 calendar.add(Calendar.MINUTE, 30);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);*/
 
                 DynamicToast.makeSuccess(this, "Reserva completada", Toast.LENGTH_SHORT).show();
                 // Disable inputs
